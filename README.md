@@ -24,7 +24,8 @@
 [![Database](https://img.shields.io/badge/Database-Local-lightgrey)](https://en.wikipedia.org/wiki/Database)
 
 ## Visuels
-![Aperçu du véhicule](TransProject/car.png)
+
+Go to issues ! 
 
 ## Installation
 
