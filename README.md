@@ -1,109 +1,165 @@
-# IntelligentCar
+# Autonomous Electrical Car (Vision computer)
 
-## Nom du projet
-**IntelligentCar** — Framework transversal intégrant systèmes embarqués, vision par ordinateur et intelligence artificielle.
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/) 
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange)](https://www.tensorflow.org/) 
+[![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-green)](https://opencv.org/) 
+[![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-Embedded-red)](https://www.raspberrypi.com/)
 
-## Description
-**IntelligentCar** est un projet académique transversal réalisé par **Alec Waumans** dans le cadre de son cursus en informatique industrielle. Il regroupe plusieurs disciplines étudiées, notamment les systèmes embarqués, la vision par ordinateur et les bases de données locales. Le projet vise à démontrer l'intégration cohérente de ces domaines au sein d'une même architecture logicielle destinée au contrôle intelligent de véhicules.
+An **educational and experimental project** that combines **embedded systems**, **computer vision**, and **AI for autonomous vehicles**.  
+Developed as part of an industrial computer science curriculum, this smart car uses a **Raspberry Pi**, a **camera**, and an **I²C motor/servo shield** to interpret road signs (Stop, Left, Right) in real time and execute the appropriate driving commands.
 
-### Objectifs clés
-- Développer un prototype fonctionnel d’IA embarquée.
-- Mettre en œuvre la détection visuelle de scènes à partir d’une caméra embarquée.
-- Contrôler un véhicule à distance ou de manière autonome.
-- Utiliser une base de données locale pour le stockage des données d’apprentissage ou des logs d’utilisation.
+---
 
-### Différenciateurs
-- Intégration complète IA + embarqué + base de données.
-- Projet modulaire et réutilisable.
-- Orienté démonstration pédagogique et réutilisation pour d’autres projets.
+## Objectives
 
-## Badges
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
-[![Computer Vision](https://img.shields.io/badge/Vision-OpenCV-red)](https://opencv.org/)
-[![AI](https://img.shields.io/badge/AI-PyTorch-yellow)](https://pytorch.org/)
-[![Database](https://img.shields.io/badge/Database-Local-lightgrey)](https://en.wikipedia.org/wiki/Database)
+- Apply **deep learning** (CNN with Keras/TensorFlow) to traffic sign recognition.  
+- Build a **real-time embedded system** using Raspberry Pi and Python.  
+- Demonstrate **autonomous driving decisions** (stop, left turn, right turn) based on visual input.  
+- Integrate **ultrasonic sensors** for safe obstacle avoidance.  
+- Provide a modular framework for training, inference, and robotic control.
 
-## Visuels
+---
 
-Go to issues ! 
+## Key Features
 
-## Installation
+- **Traffic Sign Detection & Classification** (Stop, Left, Right).  
+- **Flask REST API** server for AI inference.  
+- **Raspberry Pi Client** for camera capture and embedded control.  
+- **Ultrasonic obstacle detection** for collision avoidance.  
+- Modular training pipeline with **dataset structure** for reproducibility.  
 
-### Prérequis
-- Python 3.8+
-- pip
+---
 
-### Dépendances
+## Project Structure
+
+```
+IntelligentCar/
+├─ README.md
+└─ TransProject/
+   ├─ dataset/               # training and testing data (organized by class)
+   │  ├─ train/
+   │  │  ├─ class_0/ (Stop)
+   │  │  ├─ class_1/ (Left)
+   │  │  └─ class_2/ (Right)
+   │  └─ test/
+   ├─ models/                # trained CNN models (.h5)
+   └─ scripts/
+      ├─ car_control.py      # Flask server for AI inference
+      ├─ train_model.py      # CNN training script
+      └─ Client/
+         ├─ Clinet.py        # Raspberry Pi client (camera + control)
+         ├─ mDev.py          # I²C motor & servo + ultrasonic control
+         └─ test.py          # simple tests
+```
+
+---
+
+## Installation & Requirements
+
+- **Python 3.10+**  
+- **Raspberry Pi** with camera and I²C enabled  
+
+### Python Libraries
+```
+flask
+opencv-python
+imutils
+requests
+numpy
+tensorflow==2.15.*
+keras==2.15.*
+scikit-learn
+smbus2   # Raspberry Pi only
+```
+
+### Setup
 ```bash
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+mkdir -p TransProject/models TransProject/scripts/uploads
 ```
-> Si `requirements.txt` est absent, installer manuellement : `numpy`, `opencv-python`, `torch`, `flask`, etc.
 
-### Cloner le projet
+---
+
+## Training
+
+Organize dataset into subfolders (`class_0`, `class_1`, …).  
+Run:
 ```bash
-git clone https://github.com/votre-utilisateur/IntelligentCar.git
-cd IntelligentCar/TransProject
+cd TransProject/scripts
+python train_model.py
 ```
 
-## Utilisation
+- Saves trained model into `../models/traffic_sign_model.h5`.  
+- Prints validation accuracy and predictions.  
 
-### Entraîner un modèle IA
+---
+
+## Running the Inference Server
+
 ```bash
-python scripts/train_model.py
+cd TransProject/scripts
+python car_control.py
 ```
 
-### Contrôle IA du véhicule
+- Endpoint: `POST /upload` with `image` file.  
+- Returns command (`stop`, `left`, `right`).  
+
+---
+
+## Raspberry Pi Client
+
+Edit server URL in `Clinet.py` then run:  
 ```bash
-python scripts/car_control.py
+cd TransProject/scripts/Client
+python Clinet.py
 ```
 
-### Lancer le client de contrôle
-```bash
-python scripts/Client/test.py
-```
+- Captures frames, posts them to server.  
+- Executes returned command with motor & servo.  
+- Uses ultrasonic sensor for safety stop.  
 
-### Exemple de sortie attendue
-- Modèle sauvegardé dans `models/`
-- Retour visuel sur les frames analysées
-- Logs d’inférences, prédictions, classes détectées
+---
 
-## Feuille de route
-- [x] Système de classification d’image
-- [x] Contrôle client-serveur fonctionnel
-- [ ] Intégration de modèles pré-entraînés (YOLO, EfficientNet)
-- [ ] Ajout du support caméra réelle
-- [ ] Visualisation embarquée (web ou GUI)
+## Visuals (Traffic Signs)
 
-## Structure du projet
-```
-TransProject/
-├── dataset/            # Données d'entraînement/test
-├── models/             # Modèles IA sauvegardés
-├── scripts/
-│   ├── train_model.py  # Script d'entraînement
-│   ├── car_control.py  # Contrôle IA
-│   └── Client/         # Client réseau
-└── car.png             # Illustration du projet
-```
+Example of recognized traffic signs used for training and inference:  
+
+<p align="center">
+  <img src="./docs/images/panneau1.png" width="200"/>
+  <img src="./docs/images/panneau2.png" width="200"/>
+  <img src="./docs/images/panneau3.png" width="200"/>
+</p>
+
+Visuals of the Electrical Car :
+<p align="center">
+  <img src="./docs/images/IMG_9945.png" width="600"/>
+  <img src="./docs/images/IMG_9949.png" width="600"/>
+</p>
+---
+
+## Roadmap
+
+- Lane detection fallback (OpenCV).  
+- End-to-end behavioral cloning for driving policy.  
+- Real-time telemetry logging (latency, FPS, distances).  
+
+---
 
 ## Contribution
-Les contributions sont les bienvenues.
 
-### Processus
-1. Fork du dépôt
-2. Création d'une branche (`feature/x`)
-3. Commit + Pull request clair
-4. Revue par les mainteneurs
+Pull requests are welcome. For major changes, open an issue first to discuss.  
 
-### Bonnes pratiques
-- Tests dans `scripts/tests/`
-- Style Python conforme à `flake8` ou `black`
+---
 
-## Auteurs et remerciements
-**Alec Waumans** — Étudiant en informatique industrielle. Projet réalisé dans le cadre d’un projet transversal 2025. Merci aux enseignants des modules IA, systèmes embarqués et vision par ordinateur pour leur support pédagogique.
+## License
 
-## Licence
-Projet sous licence [MIT](https://opensource.org/licenses/MIT).
+MIT (to be added).
 
-## Statut du projet
-Projet terminé — merci à toutes les personnes ayant contribué ou soutenu son développement.
+---
+
+## Author
+
+**Alec Waumans**  
+Bachelor’s in Industrial Computer Science – Embedded & AI Systems.  
