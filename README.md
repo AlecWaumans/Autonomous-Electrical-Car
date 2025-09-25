@@ -127,9 +127,9 @@ python Clinet.py
 Example of recognized traffic signs used for training and inference:  
 
 <p align="center">
-  <img src="./docs/images/panneau1.png" width="200"/>
-  <img src="./docs/images/panneau2.png" width="200"/>
-  <img src="./docs/images/panneau3.png" width="200"/>
+  <img src="./docs/images/panneau1.jpg" width="200"/>
+  <img src="./docs/images/panneau2.jpg" width="200"/>
+  <img src="./docs/images/panneau3.jpg" width="200"/>
 </p>
 
 Visuals of the Electrical Car :
