@@ -134,9 +134,10 @@ Example of recognized traffic signs used for training and inference:
 
 Visuals of the Electrical Car :
 <p align="center">
-  <img src="./docs/images/IMG_9945.png" width="600"/>
-  <img src="./docs/images/IMG_9949.png" width="600"/>
+  <img src="./docs/images/IMG_9945.jpg" width="600"/>
+  <img src="./docs/images/IMG_9949.jpg" width="600"/>
 </p>
+
 ---
 
 ## Roadmap
